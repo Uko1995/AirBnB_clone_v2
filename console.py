@@ -42,15 +42,32 @@ class HBNBCommand(cmd.Cmd):
         if len(args) == 0:
             print("** class name missing **")
             return
-        try:
-            args = shlex.split(args)
-            new_instance = eval(args[0])()
-            new_instance.save()
-            print(new_instance.id)
+        elif len(args) == 1:
+            try:
+                args = shlex.split(args)
+                new_instance = eval(args[0])()
+                new_instance.save()
+                print(new_instance.id)
 
-        except:
-            print("** class doesn't exist **")
-
+            except:
+                print("** class doesn't exist **")
+        else:
+            try:
+                args = shlex.split(args)
+                name = args.pop(0)
+                obj = eval(name)()
+                obj.save()
+                new_id = obj.id
+                for arg in args:
+                    arg = arg.split('=')
+                    if hasattr(eval(name),arg[0]):
+                        try:
+                            arg[1] = eval(arg[1])
+                        except:
+                            arg[1] = arg[1].replace('_','')
+                        self.do_update(name + " " + new_id + " " + arg[0] + " " + arg[1])
+            except:
+                return
     def do_show(self, args):
         '''
             Print the string representation of an instance baed on
