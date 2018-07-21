@@ -2,9 +2,9 @@
 '''
     Define the class City.
 '''
-from models.base_model import Basemodel, Base
+from models.base_model import BaseModel, Base
 from models.state import State
-from sqlalchemy import Column, String
+from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 
 class City(BaseModel, Base):
