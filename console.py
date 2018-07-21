@@ -58,17 +58,17 @@ class HBNBCommand(cmd.Cmd):
                 name = args.pop(0)
                 obj = eval(name)()
                 obj.save()
-                new_id = obj.id
                 for arg in args:
                     arg = arg.split('=')
-                    if hasattr(eval(name),arg[0]):
+                    if hasattr(obj, arg[0]):
                         try:
                             arg[1] = eval(arg[1])
                         except:
                             arg[1] = arg[1].replace('_','')
-                        self.do_update(name + " " + new_id + " " + arg[0] + " " + arg[1])
+                        setattr(obj, arg[0], arg[1])
             except:
                 return
+            print(obj.id)
     def do_show(self, args):
         '''
             Print the string representation of an instance baed on
