@@ -32,8 +32,8 @@ class DBStorage:
         else:
             for tbl in Base.__subclasses__():
                 table = self.__session.query(tbl).all()
-                for obj in tbl:
-                    allobj[obj.__class__.__name__ + "." + obj.id] = obj
+                for obj in table:
+                    allobjs[obj.__class__.__name__ + "." + obj.id] = obj
         return allobjs
 
     def new(self, obj):
