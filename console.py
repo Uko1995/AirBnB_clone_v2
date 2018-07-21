@@ -14,7 +14,7 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
-
+import models
 
 class HBNBCommand(cmd.Cmd):
     '''
@@ -22,7 +22,6 @@ class HBNBCommand(cmd.Cmd):
     '''
 
     prompt = ("(hbnb) ")
-
     def do_quit(self, args):
         '''
             Quit command to exit the program.
@@ -57,7 +56,6 @@ class HBNBCommand(cmd.Cmd):
                 args = shlex.split(args)
                 name = args.pop(0)
                 obj = eval(name)()
-                obj.save()
                 for arg in args:
                     arg = arg.split('=')
                     if hasattr(obj, arg[0]):
@@ -66,6 +64,8 @@ class HBNBCommand(cmd.Cmd):
                         except:
                             arg[1] = arg[1].replace('_','')
                         setattr(obj, arg[0], arg[1])
+
+                obj.save()
             except:
                 return
             print(obj.id)
@@ -81,9 +81,9 @@ class HBNBCommand(cmd.Cmd):
         if len(args) == 1:
             print("** instance id missing **")
             return
-        storage = FileStorage()
-        storage.reload()
-        obj_dict = storage.all()
+        #
+        models.storage.reload()
+        obj_dict = models.storage.all()
         try:
             eval(args[0])
         except NameError:
@@ -110,9 +110,9 @@ class HBNBCommand(cmd.Cmd):
             return
         class_name = args[0]
         class_id = args[1]
-        storage = FileStorage()
-        storage.reload()
-        obj_dict = storage.all()
+        #
+        models.storage.reload()
+        obj_dict = models.storage.all()
         try:
             eval(class_name)
         except NameError:
@@ -123,7 +123,7 @@ class HBNBCommand(cmd.Cmd):
             del obj_dict[key]
         except KeyError:
             print("** no instance found **")
-        storage.save()
+        models.storage.save()
 
     def do_all(self, args):
         '''
@@ -131,9 +131,9 @@ class HBNBCommand(cmd.Cmd):
             based or not on the class name.
         '''
         obj_list = []
-        storage = FileStorage()
-        storage.reload()
-        objects = storage.all()
+        #
+        models.storage.reload()
+        objects = models.storage.all()
         try:
             if len(args) != 0:
                 eval(args)
@@ -154,8 +154,8 @@ class HBNBCommand(cmd.Cmd):
             Update an instance based on the class name and id
             sent as args.
         '''
-        storage = FileStorage()
-        storage.reload()
+        #
+        models.storage.reload()
         args = shlex.split(args)
         if len(args) == 0:
             print("** class name missing **")
@@ -175,7 +175,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
         key = args[0] + "." + args[1]
-        obj_dict = storage.all()
+        obj_dict = models.storage.all()
         try:
             obj_value = obj_dict[key]
         except KeyError:
@@ -200,9 +200,9 @@ class HBNBCommand(cmd.Cmd):
             Counts/retrieves the number of instances.
         '''
         obj_list = []
-        storage = FileStorage()
-        storage.reload()
-        objects = storage.all()
+        #
+        models.storage.reload()
+        objects = models.storage.all()
         try:
             if len(args) != 0:
                 eval(args)
