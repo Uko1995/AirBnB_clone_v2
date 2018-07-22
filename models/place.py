@@ -5,7 +5,7 @@
 from models.base_model import BaseModel
 
 
-class Place(BaseModel):
+class Place(BaseModel, Base):
     '''
         Define the class Place that inherits from BaseModel.
     '''
