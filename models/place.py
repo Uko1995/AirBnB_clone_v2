@@ -5,7 +5,7 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Table, Integer, ForeignKey
 from sqlalchemy.orm import relationship
-
+import models
 
 place_amenity = Table("place_amenity", Base.metadata,
                       Column("place_id", String(60),
@@ -28,11 +28,17 @@ class Place(BaseModel, Base):
     latitude = Column(Float, nullable=False)
     longitude = Column(Float, nullable=False)
     amenity_ids = []
-    amenities = Relationship("Amenity", secondary="place_amenity",
+    amenities = relationship("Amenity", secondary="place_amenity",
                              viewonly=False, back_populates("place_amenities"))
     @property
     def amenities(self):
-        return
+        objlist=[]
+        for amenity in self.amenity_ids:
+            amenityObj = models.storage.all().get("Amenity.{}".format(amenity))
+            if amenityObj:
+                objlist.append(amenityObj)
+        return objlist
 
-    @amenities.setter(self):
-        return
+    @amenities.setter(self, obj):
+        if type(obj) is Amenity:
+            self.amenity_ids.append(obj.id)
