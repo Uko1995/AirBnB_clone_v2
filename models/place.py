@@ -12,8 +12,7 @@ place_amenity = Table("place_amenity", Base.metadata,
                              ForeignKey("places.id"), nullable=False),
                       Column("amenity_id", String(60), ForeignKey("amenities.id"),
                              nullable=False))
-
-class Place(BaseModel):
+class Place(BaseModel, Base):
     '''
         Define the class Place that inherits from BaseModel.
     '''
