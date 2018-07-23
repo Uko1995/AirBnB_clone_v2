@@ -22,7 +22,7 @@ class DBStorage:
             os.getenv("HBNB_MYSQL_HOST"),os.getenv("HBNB_MYSQL_DB")),
                                       pool_pre_ping=True)
         if os.getenv("HBNB_MYSQL_DB") == "test":
-            Base.metadata.drop_all(bind=engine)
+            Base.metadata.drop_all(bind=self.__engine)
 
     def all(self, cls=None):
         allobjs = {}
