@@ -58,4 +58,6 @@ class FileStorage:
         '''
             Deletes obj from __objects if it’s inside
         '''
-        FileStorage.__objects = {key: value for key, value in FileStorage.__objects.items() if value != obj}
+        FileStorage.__objects = {
+            key: value for key,
+            value in FileStorage.__objects.items() if value != obj}

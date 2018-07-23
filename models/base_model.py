@@ -11,6 +11,7 @@ import models
 
 Base = declarative_base()
 
+
 class BaseModel:
     '''
         Base class for other classes to be used for the duration.
@@ -29,13 +30,13 @@ class BaseModel:
             self.updated_at = datetime.now()
         else:
             if kwargs.get('created_at'):
-                kwargs["created_at"] = datetime.strptime(kwargs["created_at"],
-                                                         "%Y-%m-%dT%H:%M:%S.%f")
+                kwargs["created_at"] = datetime.strptime(
+                    kwargs["created_at"], "%Y-%m-%dT%H:%M:%S.%f")
             else:
                 self.created_at = datetime.now()
             if kwargs.get('updated_at'):
-                kwargs["updated_at"] = datetime.strptime(kwargs["updated_at"],
-                                                         "%Y-%m-%dT%H:%M:%S.%f")
+                kwargs["updated_at"] = datetime.strptime(
+                    kwargs["updated_at"], "%Y-%m-%dT%H:%M:%S.%f")
             else:
                 self.updated_at = datetime.now()
             for key, val in kwargs.items():
@@ -43,7 +44,6 @@ class BaseModel:
                     setattr(self, key, val)
             if not self.id:
                 self.id = str(uuid.uuid4())
-
 
     def __str__(self):
         '''

@@ -8,11 +8,21 @@ from sqlalchemy.orm import relationship
 import models
 import os
 
-place_amenity = Table("place_amenity", Base.metadata,
-                      Column("place_id", String(60),
-                             ForeignKey("places.id"), nullable=False),
-                      Column("amenity_id", String(60), ForeignKey("amenities.id"),
-                             nullable=False))
+place_amenity = Table(
+    "place_amenity",
+    Base.metadata,
+    Column(
+        "place_id",
+        String(60),
+        ForeignKey("places.id"),
+        nullable=False),
+    Column(
+        "amenity_id",
+        String(60),
+        ForeignKey("amenities.id"),
+        nullable=False))
+
+
 class Place(BaseModel, Base):
     '''
         Define the class Place that inherits from BaseModel.
@@ -32,18 +42,18 @@ class Place(BaseModel, Base):
     amenities = relationship("Amenity", secondary=place_amenity,
                              back_populates="place_amenities", viewonly=False)
 
-    if os.getenv("HBNB_TYPE_STORAGE")=="FileStorage":
+    if os.getenv("HBNB_TYPE_STORAGE") == "FileStorage":
         @property
         def amenities(self):
-            objlist=[]
+            objlist = []
             for amenity in self.amenity_ids:
-                amenityObj = models.storage.all().get("Amenity.{}".format(amenity))
+                amenityObj = models.storage.all().get("Amenity.{}"
+                                                      .format(amenity))
                 if amenityObj:
                     objlist.append(amenityObj)
             return objlist
 
-
         @amenities.setter
         def amenities(self, obj):
-            if type(obj) is Amenity:
+            if isinstance(obj, Amenity):
                 self.amenity_ids.append(obj.id)

@@ -12,22 +12,32 @@ from models.amenity import Amenity
 from models.review import Review
 import os
 
+
 class DBStorage:
+    '''
+    Database storage class
+    '''
     __engine = None
     __session = None
 
     def __init__(self):
+        '''
+        Defines DBStorage class instances
+        '''
         self.__engine = create_engine("mysql+mysqldb://{}:{}@{}/{}".format(
-            os.getenv("HBNB_MYSQL_USER"),os.getenv("HBNB_MYSQL_PWD"),
-            os.getenv("HBNB_MYSQL_HOST"),os.getenv("HBNB_MYSQL_DB")),
-                                      pool_pre_ping=True)
+            os.getenv("HBNB_MYSQL_USER"), os.getenv("HBNB_MYSQL_PWD"),
+            os.getenv("HBNB_MYSQL_HOST"), os.getenv("HBNB_MYSQL_DB")),
+            pool_pre_ping=True)
         if os.getenv("HBNB_MYSQL_DB") == "test":
-            Base.metadata.drop_all(bind=engine)
+            Base.metadata.drop_all(bind=self.__engine)
 
     def all(self, cls=None):
+        '''
+        Returns dictionary of all objects in the database
+        '''
         allobjs = {}
         if cls:
-            allobjs = {obj.__class__.__name__ + "." + obj.id : obj for
+            allobjs = {obj.__class__.__name__ + "." + obj.id: obj for
                        obj in self.__session.query(cls).all()}
         else:
             for tbl in Base.__subclasses__():
@@ -37,16 +47,28 @@ class DBStorage:
         return allobjs
 
     def new(self, obj):
+        '''
+        Adds new object to current session
+        '''
         if obj:
             self.__session.add(obj)
 
     def save(self):
+        '''
+        Saves new object to the database
+        '''
         self.__session.commit()
 
     def delete(self, obj=None):
+        '''
+        Deletes object in current session
+        '''
         self.__session.delete(obj)
 
     def reload(self):
+        '''
+        Loads all objects from database and creates new session
+        '''
         Base.metadata.create_all(self.__engine)
         session_factory = sessionmaker(bind=self.__engine,
                                        expire_on_commit=False)
