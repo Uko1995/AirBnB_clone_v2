@@ -21,9 +21,7 @@ from sqlalchemy import Column, Integer, String, create_engine
 from sqlalchemy.orm import sessionmaker
 
 
-
 @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db', 'not db storage')
-
 class TestDBStorage(unittest.TestCase):
     '''
     Tests to check the documentation and style of DBStorage class
@@ -36,7 +34,6 @@ class TestDBStorage(unittest.TestCase):
         pep8s = pep8.StyleGuide(quiet=True)
         result = pep8s.check_files(['models/engine/db_storage.py'])
         self.assertEqual(result.total_errors, 0, "Pep8 Errors")
-
 
     def test_db_storage_module_docstring(self):
         '''
@@ -80,7 +77,11 @@ class TestDBStorage(unittest.TestCase):
         '''
             Tests User class
         '''
-        new_user = User(email='boop@boop.com', password='boopword', first_name='boop', last_name='poob')
+        new_user = User(
+            email='boop@boop.com',
+            password='boopword',
+            first_name='boop',
+            last_name='poob')
 
         self.assertIsInstance(new_user.email, str)
         self.assertIsInstance(new_user.password, str)
