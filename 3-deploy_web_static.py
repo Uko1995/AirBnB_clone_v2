@@ -49,8 +49,7 @@ def do_deploy(archive_path):
 
 def deploy():
     # automates everything
-    archive_path = do_pack()
-    if archive_path:
-        print("archive path not created")
+    ap = do_pack()
+    if ap == None:
         return False
-    return do_deploy(archive_path)
+    return do_deploy(ap)
