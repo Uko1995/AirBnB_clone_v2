@@ -5,7 +5,7 @@
 from sqlalchemy import Column, Integer, String
 from models.base_model import BaseModel, Base
 from sqlalchemy.orm import relationship
-
+import models
 
 class State(BaseModel, Base):
     '''
@@ -18,4 +18,5 @@ class State(BaseModel, Base):
 
     @property
     def cities(self):
-        return [city for city in State.cities if city.state_id == self.id]
+        FLcity = models.storage.all("City").values()
+        return [city for city in FLcity if city.state_id == self.id]
