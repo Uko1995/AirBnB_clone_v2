@@ -50,6 +50,6 @@ def do_deploy(archive_path):
 def deploy():
     # automates everything
     ap = do_pack()
-    if ap == None:
+    if ap is None:
         return False
     return do_deploy(ap)
