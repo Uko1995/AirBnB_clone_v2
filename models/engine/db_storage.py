@@ -12,6 +12,8 @@ from models.amenity import Amenity
 from models.review import Review
 import os
 
+classes = {"Amenity": Amenity, "City": City, "Place": Place,
+           "Review": Review, "State": State, "User": User}
 
 class DBStorage:
     '''
@@ -38,7 +40,7 @@ class DBStorage:
         allobjs = {}
         if cls:
             allobjs = {obj.__class__.__name__ + "." + obj.id: obj for
-                       obj in self.__session.query(cls).all()}
+                       obj in self.__session.query(classes[cls]).all()}
         else:
             for tbl in Base.__subclasses__():
                 table = self.__session.query(tbl).all()
@@ -74,3 +76,6 @@ class DBStorage:
                                        expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
+
+    def close(self):
+        self.__session.close()

@@ -11,12 +11,13 @@ from models.amenity import Amenity
 from models.review import Review
 import os
 
+store_type = os.getenv('HBNB_TYPE_STORAGE')
 classes = {"User": User, "BaseModel": BaseModel,
            "Place": Place, "State": State,
            "City": City, "Amenity": Amenity,
            "Review": Review}
 
-if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+if store_type == 'db':
     from models.engine.db_storage import DBStorage
     storage = DBStorage()
     storage.reload()

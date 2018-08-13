@@ -17,7 +17,12 @@ class FileStorage:
         '''
             Return the dictionary
         '''
-        return self.__objects
+        if not cls:
+            return self.__objects
+        else:
+            new = {obj:key for obj, key in self.__objects.items()
+                   if type(key) == cls}
+            return new
 
     def new(self, obj):
         '''
@@ -61,3 +66,6 @@ class FileStorage:
         FileStorage.__objects = {
             key: value for key,
             value in FileStorage.__objects.items() if value != obj}
+
+    def close(self):
+        self.reload()
