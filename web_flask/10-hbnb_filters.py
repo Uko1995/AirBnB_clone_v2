@@ -4,17 +4,12 @@ from flask import Flask, render_template
 from models import storage
 app = Flask(__name__)
 
-@app.route('/states')
+@app.route('/hbnb_filters')
 def stateList():
     # lists states in html
-    return render_template('9-states.html',
-                           storage=storage.all('State'), stObj=None)
-
-@app.route('/states/<id>')
-def cityStateList(id):
-    # lists states in html
-    stObj = storage.all('State').get('State.{}'.format(id))
-    return render_template('9-states.html', stObj=stObj, storage=None)
+    return render_template('10-hbnb_filters.html',
+                           storage=storage.all('State'),
+                           amens=storage.all('Amenity'))
 
 @app.teardown_appcontext
 def closer(exception):

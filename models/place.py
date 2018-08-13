@@ -42,7 +42,7 @@ class Place(BaseModel, Base):
     amenities = relationship("Amenity", secondary=place_amenity,
                              back_populates="place_amenities", viewonly=False)
 
-    if os.getenv("HBNB_TYPE_STORAGE") == "FileStorage":
+    if os.getenv("HBNB_TYPE_STORAGE") == "fs":
         @property
         def amenities(self):
             objlist = []
