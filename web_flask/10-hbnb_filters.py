@@ -4,6 +4,7 @@ from flask import Flask, render_template
 from models import storage
 app = Flask(__name__)
 
+
 @app.route('/hbnb_filters')
 def stateList():
     # lists states in html
@@ -11,9 +12,11 @@ def stateList():
                            storage=storage.all('State'),
                            amens=storage.all('Amenity'))
 
+
 @app.teardown_appcontext
 def closer(exception):
     storage.close()
+
 
 if __name__ == "__main__":
     app.url_map.strict_slashes = False
