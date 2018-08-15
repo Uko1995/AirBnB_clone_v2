@@ -41,7 +41,7 @@ class DBStorage:
         allobjs = {}
         if cls:
             allobjs = {obj.__class__.__name__ + "." + obj.id: obj for
-                       obj in self.__session.query(cls).all()}
+                       obj in self.__session.query(classes[cls]).all()}
         else:
             for tbl in Base.__subclasses__():
                 table = self.__session.query(tbl).all()
