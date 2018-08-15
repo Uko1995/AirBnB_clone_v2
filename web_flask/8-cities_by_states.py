@@ -8,7 +8,8 @@ app = Flask(__name__)
 @app.route('/states_list')
 def stateList():
     # lists states in html
-    return render_template('7-states_list.html', storage=storage.all('State'))
+    return render_template('8-cities_by_states.html',
+                           storage=storage.all('State'))
 
 
 @app.route('/cities_by_states')
