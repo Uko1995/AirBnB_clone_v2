@@ -15,6 +15,7 @@ import os
 classes = {"Amenity": Amenity, "City": City, "Place": Place,
            "Review": Review, "State": State, "User": User}
 
+
 class DBStorage:
     '''
     Database storage class
@@ -40,7 +41,7 @@ class DBStorage:
         allobjs = {}
         if cls:
             allobjs = {obj.__class__.__name__ + "." + obj.id: obj for
-                       obj in self.__session.query(classes[cls]).all()}
+                       obj in self.__session.query(cls).all()}
         else:
             for tbl in Base.__subclasses__():
                 table = self.__session.query(tbl).all()

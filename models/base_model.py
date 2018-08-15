@@ -71,7 +71,7 @@ class BaseModel:
         '''
             Return dictionary representation of BaseModel class.
         '''
-        cp_dct = self.__dict__.copy()
+        cp_dct = dict(self.__dict__)
         cp_dct['__class__'] = self.__class__.__name__
         if 'updated_at' in cp_dct:
             cp_dct['updated_at'] = self.updated_at.strftime(

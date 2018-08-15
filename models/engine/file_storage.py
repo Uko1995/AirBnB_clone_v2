@@ -20,7 +20,7 @@ class FileStorage:
         if not cls:
             return self.__objects
         else:
-            new = {obj:key for obj, key in self.__objects.items()
+            new = {obj: key for obj, key in self.__objects.items()
                    if type(key) == cls}
             return new
 
